@@ -2,6 +2,7 @@ import { prismaClient } from "@/lib/db";
 import { OpenAIService } from "@/lib/openAi";
 import { NextApiRequest, NextApiResponse } from "next";
 import { getSession } from "next-auth/react";
+import { NextRequest } from "next/server";
 import {z} from "zod"
 
 const messageSchema = z.object({
@@ -11,33 +12,45 @@ const messageSchema = z.object({
     tone: z.enum(["FORMAL", "CASUAL", "ENTHUSIASTIC"]),
   });
 
-export default async function handler(req : NextApiRequest , res : NextApiResponse){
 
-  if(req.method !== "POST")return res.status(405).json({message: "Method Not Allowed"})
+export async function POST(req: NextApiRequest , res: NextApiResponse){
 
-  const session = await getSession({req}) ;
-  
-  if(!session)return res.status(401).json({message: "Unauthorized"});
+  const session = await getSession({req}) ; 
+
+  if(!session) return res.status(401).json({message: "Unauthorized"}) ; 
 
   try{
 
-    const parsedData = messageSchema.parse(req.body) ;
+    const parsedData = messageSchema.parse(req.body) ; 
 
     const {emailText , linkedInText} = await OpenAIService.generateMessage(
       parsedData.role , 
       parsedData.skills , 
       parsedData.company , 
-      parsedData.tone
+      parsedData.tone 
     )
 
+    const user = await prismaClient.user.findUnique({where : {email : session.user?.email || ""}})
+
+
+    if(!user){
+      return res.status(404).json({message: "user not found"}) ; 
+    }
+    
     const message = await prismaClient.message.create({
-      data:{email : session.user?.email , name : session.user?.name , }
+      data: {
+        userId : user.id , ...parsedData , emailText , linkedInText
+      }
     })
+
+    res.status(201).json(message) ; 
 
   }catch(error){
     if(error instanceof z.ZodError){
       return res.status(400).json({errors : error.errors}) ; 
     }
-    return res.status(500).json({message : "error generating message"}) ; 
+
+    return res.status(500).json({message: "Error generating message"}) ; 
   }
+
 }
