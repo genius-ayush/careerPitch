@@ -13,7 +13,7 @@ const handler = NextAuth({
       callbacks: {
         async signIn(params) {
           if(!params.user.email){
-            return false ; 
+            return false ;   
           }
           try{
 

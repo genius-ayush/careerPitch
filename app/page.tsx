@@ -1,9 +1,10 @@
 import Appbar from "@/components/Appbar";
+import Landing from "@/components/Landing";
 
 export default function Home() {
   return (
     <div>
-      <Appbar/>
+      <Landing/> 
     </div>
   );
-}
+} 
