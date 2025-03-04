@@ -44,7 +44,7 @@ export default function DashboardSidebar() {
     }
 
     return (
-        <Sidebar className="w-72">
+        <Sidebar className="w-72 ">
             <SidebarHeader className="flex items-center px-4 py-6 border-b-1">
                 <Link href="/landing" className="flex items-center gap-2 flex-1">
                     <Sparkles className="h-6 w-6" />
@@ -96,8 +96,9 @@ export default function DashboardSidebar() {
                     
 
 
-                    <div className="text-sm">
+                    <div className="text-sm"><Link href="/dashboard/messages/msg-1">
                         Frontend Developer at Google
+                    </Link>
                     </div>
                     <Separator className="my-2" />
 
