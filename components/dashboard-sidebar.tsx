@@ -29,6 +29,8 @@ import {
     DropdownMenuSeparator,
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
+import { ScrollArea } from "./ui/scroll-area"
+import { Separator } from "./ui/separator"
 
 export default function DashboardSidebar() {
     const pathname = usePathname()
@@ -51,78 +53,105 @@ export default function DashboardSidebar() {
 
             </SidebarHeader>
 
-            <SidebarContent className="py-5">
-                <SidebarGroup>
-                    <SidebarGroupContent>
-                        <SidebarMenu>
-                            <SidebarMenuItem>
-                                <SidebarMenuButton asChild isActive={pathname === "/dashboard"}>
-                                    <Link href="/dashboard" className="flex items-center w-full">
-                                        <LayoutDashboard className="mr-2 h-4 w-4" />
-                                        <span>Create Message</span>
-                                    </Link>
-                                </SidebarMenuButton>
-                            </SidebarMenuItem>
-                            <SidebarMenuItem>
-                                <SidebarMenuButton
-                                    asChild
-                                    isActive={pathname === "/dashboard/messages" || pathname.startsWith("/dashboard/messages/")}
-                                >
-                                    <Link href="/dashboard/messages" className="flex items-center w-full">
-                                        <MessageSquare className="mr-2 h-4 w-4" />
-                                        <span>Messages</span>
-                                    </Link>
-                                </SidebarMenuButton>
-                            </SidebarMenuItem>
-                            <SidebarMenuItem>
-                                <SidebarMenuButton asChild>
-                                    <Link href="/dashboard/settings" className="flex items-center w-full">
-                                        <Settings className="mr-2 h-4 w-4" />
-                                        <span>Settings</span>
-                                    </Link>
-                                </SidebarMenuButton>
-                            </SidebarMenuItem>
-                        </SidebarMenu>
-                    </SidebarGroupContent>
-                </SidebarGroup>
+            {/* <SidebarContent className="py-5"> */}
 
-                <SidebarSeparator className="my-4" />
+            <SidebarGroup className="border-b-1 pt-10 pb-10">
+                <SidebarGroupContent>
+                    <SidebarMenu>
+                        <SidebarMenuItem>
+                            <SidebarMenuButton asChild isActive={pathname === "/dashboard"}>
+                                <Link href="/dashboard" className="flex items-center w-full">
+                                    <LayoutDashboard className="mr-2 h-4 w-4" />
+                                    <span>Create Message</span>
+                                </Link>
+                            </SidebarMenuButton>
+                        </SidebarMenuItem>
+                        <SidebarMenuItem>
+                            <SidebarMenuButton
+                                asChild
+                                isActive={pathname === "/dashboard/messages" || pathname.startsWith("/dashboard/messages/")}
+                            >
+                                <Link href="/dashboard/messages" className="flex items-center w-full">
+                                    <MessageSquare className="mr-2 h-4 w-4" />
+                                    <span>Messages</span>
+                                </Link>
+                            </SidebarMenuButton>
+                        </SidebarMenuItem>
+                        <SidebarMenuItem>
+                            <SidebarMenuButton asChild>
+                                <Link href="/dashboard/settings" className="flex items-center w-full">
+                                    <Settings className="mr-2 h-4 w-4" />
+                                    <span>Settings</span>
+                                </Link>
+                            </SidebarMenuButton>
+                        </SidebarMenuItem>
+                    </SidebarMenu>
+                </SidebarGroupContent>
+            </SidebarGroup>
 
-                <SidebarGroup >
-                    <SidebarGroupLabel>Recent Messages</SidebarGroupLabel>
-                    <SidebarGroupContent>
-                        <SidebarMenu >          
-                            <SidebarMenuItem>
-                                <SidebarMenuButton asChild>
-                                    <Link href="/dashboard/messages/msg-1">
-                                        <span>Frontend Developer at Google</span>
-                                    </Link>
-                                </SidebarMenuButton>
-                            </SidebarMenuItem>
-                            <SidebarMenuItem>
-                                <SidebarMenuButton asChild>
-                                    <Link href="/dashboard/messages/msg-2">
-                                                <span>UX Designer at Microsoft</span>
-                                    </Link>
-                                </SidebarMenuButton>
-                            </SidebarMenuItem>
-                        </SidebarMenu>
-                    </SidebarGroupContent>
-                </SidebarGroup>
-            </SidebarContent>
+
+            <h4 className="mb-4  text-sm leading-none px-4 pt-5">Recent Messages</h4>
+            <ScrollArea className="h-96  rounded-md border-b-1 pb-5 ">
+                <div className="p-4">
+                    
+
+
+                    <div className="text-sm">
+                        Frontend Developer at Google
+                    </div>
+                    <Separator className="my-2" />
+
+                    <div className="text-sm">
+                        Frontend Developer at Google
+                    </div>
+                    <Separator className="my-2" />
+
+                    <div className="text-sm">
+                        Frontend Developer at Google
+                    </div>
+                    <Separator className="my-2" />
+
+                    <div className="text-sm">
+                        Frontend Developer at Google
+                    </div>
+                    <Separator className="my-2" />
+
+                    <div className="text-sm">
+                        Frontend Developer at Google
+                    </div>
+                    <Separator className="my-2" />
+
+                    <div className="text-sm">
+                        Frontend Developer at Google
+                    </div>
+                    <Separator className="my-2" />
+
+                    <div className="text-sm">
+                        Frontend Developer at Google
+                    </div>
+                    <Separator className="my-2" />
+
+                    <div className="text-sm">
+                        Frontend Developer at Google
+                    </div>
+                    <Separator className="my-2" />
+
+                    <div className="text-sm">
+                        Frontend Developer at Google
+                    </div>
+                    <Separator className="my-2" />
+
+
+                </div>
+            </ScrollArea>
             <SidebarFooter>
-                <div className="p-4 space-y-4">
-                    <Button className="w-full" asChild>
-                        <Link href="/dashboard">
-                            <PlusCircle className="mr-2 h-4 w-4" />
-                            <span>New Message</span>
-                        </Link>
-                    </Button>
+                <div className="space-y-4 mt-5">
 
-                    <div className="flex items-center justify-between">
+
+                    <div className="flex items-center justify-between ">
                         <DropdownMenu>
                             <DropdownMenuTrigger asChild>
-                                <Button variant="ghost" className="flex items-center gap-2 h-auto p-2">
+                                <Button variant="ghost" className="flex items-center gap-2 h-auto ">
                                     <Avatar className="h-8 w-8">
                                         <AvatarImage src="/placeholder.svg" alt="User" />
                                         <AvatarFallback>JD</AvatarFallback>
