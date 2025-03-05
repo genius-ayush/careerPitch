@@ -31,6 +31,7 @@ import {
 } from "@/components/ui/dropdown-menu"
 import { ScrollArea } from "./ui/scroll-area"
 import { Separator } from "./ui/separator"
+import { signOut } from "next-auth/react"
 
 export default function DashboardSidebar() {
     const pathname = usePathname()
@@ -39,7 +40,8 @@ export default function DashboardSidebar() {
     const handleLogout = () => {
         // Clear authentication state
         // localStorage.removeItem("isAuthenticated")g
-        // Redirect to landing page
+        // Redirect to landing pageLogout
+        signOut() ;
         router.push("/")
     }
 
