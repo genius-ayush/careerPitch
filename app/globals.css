@@ -12,6 +12,8 @@
   .animate-background-position-spin{
     animation : background-position-spin 3000ms infinite alternate
   }
+
+  
 }
 
 @keyframes shiny-text {
