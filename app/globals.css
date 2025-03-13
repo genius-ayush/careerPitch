@@ -4,10 +4,37 @@
 
 @custom-variant dark (&:is(.dark *));
 
-@theme {
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+@layer utilities {
+  .animate-shiny-text {
+    animation: shiny-text 8s infinite;
+  }
+
+  .animate-background-position-spin{
+    animation : background-position-spin 3000ms infinite alternate
+  }
 }
+
+@keyframes shiny-text {
+  0%, 90%, 100% {
+    background-position: calc(-100% - var(--shiny-width)) 0;
+  }
+  30%, 60% {
+    background-position: calc(100% + var(--shiny-width)) 0;
+  }
+} 
+
+@keyframes animate-background-position-spin{
+    
+      0%  { backgroundPosition: "top center" };
+      100% { backgroundPosition: "bottom center" } ;
+
+}
+
+.mask-image-gradient {
+  -webkit-mask-image: linear-gradient(to bottom, rgba(0, 0, 0, 1), rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0));
+  mask-image: linear-gradient(to bottom, rgba(0, 0, 0, 1), rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0));
+}
+
 
 :root {
   --background: oklch(1 0 0);
