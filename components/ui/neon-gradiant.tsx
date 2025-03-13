@@ -18,7 +18,7 @@ interface NeonColorsProps {
 
 interface NeonGradientCardProps {
   /**
-   * @default <div />
+   * @default ""
    * @type ReactElement
    * @description
    * The component to be rendered as the card
@@ -119,11 +119,11 @@ export const NeonGradientCard: React.FC<NeonGradientCardProps> = ({
           "--pseudo-element-background-image": `linear-gradient(0deg, ${neonColors.firstColor}, ${neonColors.secondColor})`,
           "--pseudo-element-width": `${dimensions.width + borderSize * 2}px`,
           "--pseudo-element-height": `${dimensions.height + borderSize * 2}px`,
-          "--after-blur": `${dimensions.width /6}px`,
+          "--after-blur": `${dimensions.width /13}px`,
         } as CSSProperties
       }
-      className={cn(
-        "relative z-10 size-full rounded-[var(--border-radius)]",
+      className={cn(    
+        "relative z-10 size-full rounded-[var(--border-radius)] ",
         className,
       )}
       {...props}

@@ -36,11 +36,11 @@ function Hero() {
       </div>
 
       <div className="flex justify-center">
-        <p className="text-center font-light text-xl w-1/2 text-gray-300 z-50">Beautifully designed, AI-powered messages that help you stand out and get responses from potential referrers at your dream companies.</p>
+        <p className="text-center font-light text-xl w-1/2 text-gray-300 ">Beautifully designed, AI-powered messages that help you stand out and get responses from potential referrers at your dream companies.</p>
       </div>
       
       <div className='flex justify-center mt-6 mb-32' >
-            <Button className="z-50">Get started for free</Button>
+            <Button className=" ">Get started for free</Button>
             </div>
 
       <Desktop />
