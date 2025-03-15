@@ -40,7 +40,7 @@ function Testimonials() {
                   <div className="flex items-center gap-4">
                     <div className="h-10 w-10 rounded-full bg-white/10" />
                     <div>
-                      <p className="font-medium">Michael T.</p>
+                      <p className="font-medium">Ayush</p>
                       <p className="text-sm text-white/50">Product Manager at Microsoft</p>
                     </div>
                   </div>
