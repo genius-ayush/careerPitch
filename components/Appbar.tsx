@@ -28,6 +28,7 @@ function Appbar() {
           <div className="flex items-center">
             <Link href="#about" className="md:flex items-center gap-4 text-md lg:gap-6 hidden mx-4 hover:pointer hover:text-gray-400">About</Link>
             <Link href="#features" className="md:flex items-center gap-4 text-md lg:gap-6 hidden mx-4 hover:pointer hover:text-gray-400">Features</Link>
+            {session.data?.user && <Button>hey </Button>}
             <Link href="#signin" className="md:flex items-center gap-4 text-md lg:gap-6 hidden mx-4 hover:pointer hover:text-gray-400"><Button>Signin </Button></Link>
           </div>
 
