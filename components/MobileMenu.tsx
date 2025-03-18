@@ -1,3 +1,4 @@
+'use client'
 import React from 'react'
 import { Sheet, SheetClose, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from './ui/sheet'
 import { Menu, X } from 'lucide-react'
