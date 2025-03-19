@@ -8,13 +8,14 @@ import MobileMenu from "./MobileMenu";
 function Appbar() {
 
     const session = useSession() ;
+    console.log(session)
     console.log(session.data) ; 
   return (
     // <div className="flex justify-between p-10 bg-amber-100">
     //     <div>CareerPitch</div>
     //     <div>
-    //     {session.data?.user && <Button onClick={()=>signOut()}>logout</Button>}
-    //     {!session.data?.user && <Button onClick={()=>signIn()}>Sigin</Button>}
+    //     {/* {session.data?.user && <Button onClick={()=>signOut()}>logout</Button>}
+    //     {!session.data?.user && <Button onClick={()=>signIn()}>Sigin</Button>} */}
         
     //     </div>
     // </div>
@@ -28,8 +29,8 @@ function Appbar() {
           <div className="flex items-center">
             <Link href="#about" className="md:flex items-center gap-4 text-md lg:gap-6 hidden mx-4 hover:pointer hover:text-gray-400">About</Link>
             <Link href="#features" className="md:flex items-center gap-4 text-md lg:gap-6 hidden mx-4 hover:pointer hover:text-gray-400">Features</Link>
-            {/* {session.data?.user && <Button>hey  </Button>} */}
-            <Link href="#signin" className="md:flex items-center gap-4 text-md lg:gap-6 hidden mx-4 hover:pointer hover:text-gray-400"><Button>Signin </Button></Link>
+            {session.data?.user && <Button>Go to app  </Button>}
+            {!session.data?.user && <Button className="md:flex items-center gap-4 text-md lg:gap-6 hidden mx-4 hover:pointer hover:text-gray-400" onClick={()=>signIn()}>Sigin</Button>} 
           </div>
 
           <div className="md:hidden">
