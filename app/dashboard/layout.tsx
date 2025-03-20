@@ -6,6 +6,7 @@ import { useEffect } from "react"
 import { useRouter } from "next/navigation"
 import DashboardSidebar from "@/components/dashboard-sidebar"
 import { SidebarProvider } from "@/components/ui/sidebar"
+import { useSession } from "next-auth/react"
 
 export default function DashboardLayout({
   children,
@@ -14,9 +15,10 @@ export default function DashboardLayout({
 }) {
   const router = useRouter()
 
-  
+  const session =  useSession() ; 
 
-  return (
+  if(session.data){
+    return (
       <div className="flex min-h-screen">
         <SidebarProvider>
         <DashboardSidebar/>
@@ -24,5 +26,9 @@ export default function DashboardLayout({
         </SidebarProvider>
       </div>
   )
+  }else{
+    return <p>Access Denied</p>
+  }
+  
 }
 

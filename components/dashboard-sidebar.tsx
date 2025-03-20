@@ -31,12 +31,13 @@ import {
 } from "@/components/ui/dropdown-menu"
 import { ScrollArea } from "./ui/scroll-area"
 import { Separator } from "./ui/separator"
-import { signOut } from "next-auth/react"
+import { signOut, useSession } from "next-auth/react"
 
 export default function DashboardSidebar() {
     const pathname = usePathname()
     const router = useRouter()
-
+    const session = useSession() ; 
+    console.log(session.data?.user?.image); 
     const handleLogout = () => {
         // Clear authentication state
         // localStorage.removeItem("isAuthenticated")g
@@ -48,7 +49,7 @@ export default function DashboardSidebar() {
     return (
         <Sidebar className="w-72 ">
             <SidebarHeader className="flex items-center px-4 py-6 border-b-1">
-                <Link href="/landing" className="flex items-center gap-2 flex-1">
+                <Link href="/" className="flex items-center gap-2 flex-1">
                     <Sparkles className="h-6 w-6" />
                     <span className="font-bold text-xl">CareerPitch</span>
                 </Link>
@@ -156,12 +157,13 @@ export default function DashboardSidebar() {
                             <DropdownMenuTrigger asChild>
                                 <Button variant="ghost" className="flex items-center gap-2 h-auto ">
                                     <Avatar className="h-8 w-8">
-                                        <AvatarImage src="/placeholder.svg" alt="User" />
-                                        <AvatarFallback>JD</AvatarFallback>
+
+                                        {session.data?.user?.image && <AvatarImage src={session.data?.user?.image} alt="User" />}
+                                        <AvatarFallback>AR</AvatarFallback>
                                     </Avatar>
                                     <div className="flex flex-col items-start text-sm">
-                                        <span className="font-medium">John Doe</span>
-                                        <span className="text-xs text-muted-foreground">john.doe@example.com</span>
+                                        <span className="font-medium">{session.data?.user?.name}</span>
+                                        <span className="text-xs text-muted-foreground">{session.data?.user?.email}</span>
                                     </div>
                                 </Button>
                             </DropdownMenuTrigger>
