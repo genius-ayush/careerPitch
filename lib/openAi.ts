@@ -6,9 +6,9 @@ const openai = new OpenAI({
 
 export const OpenAIService = {
 
-  async generateMessage(role: string, skills: string, company: string, tone: "FORMAL" | "CASUAL" | "ENTHUSIASTIC") {
+  async generateMessage(role: string, skills: string, company: string, tone: "FORMAL" | "CASUAL" | "ENTHUSIASTIC" , others: string) {
     const prompt = `Write a ${tone.toLowerCase()} email and LinkedIn message for a candidate applying for a ${role} role at ${company}. 
-    The candidate has the following skills: ${skills}.`;
+    The candidate has the following skills: ${skills}. ${others}`;
 
     try {
       const response = await openai.chat.completions.create({
