@@ -31,9 +31,13 @@ export async function POST(req: NextRequest){
       role , skills , company , tone , others || ""
     )
 
-    const message = await prismaClient.create({
-       
-    })
+    console.log(emailText)
+    console.log(linkedInText)
+    return NextResponse.json({message : emailText + " " + linkedInText});
+
+    // const message = await prismaClient.message.create({
+    //   data : {userId : session.userId , ...validation , emailText , linkedInText} 
+    // })
 
   }catch(error){
     console.error("Error generating messages" , error) ;
