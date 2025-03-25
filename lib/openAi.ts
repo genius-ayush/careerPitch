@@ -7,36 +7,43 @@ import OpenAI from "openai";
 // console.log(openai)
 const apiKey = process.env.OPENAI_API_KEY
 console.log(apiKey);
+
+const openai = new OpenAI({
+  baseURL: "https://openrouter.ai/api/v1",
+  apiKey: apiKey,
+  defaultHeaders: {
+    "HTTP-Referer": "<YOUR_SITE_URL>", // Optional. Site URL for rankings on openrouter.ai.
+    "X-Title": "<YOUR_SITE_NAME>", // Optional. Site title for rankings on openrouter.ai.
+  },
+});
 export const OpenAIService = {
 
   async generateMessage(role: string, skills: string, company: string, tone: "FORMAL" | "CASUAL" | "ENTHUSIASTIC", others: string) {
     const prompt = `Write a ${tone.toLowerCase()} email and LinkedIn message for a candidate applying for a ${role} role at ${company}. 
     The candidate has the following skills: ${skills}. ${others}`;
     try {
-      const response = await fetch("https://openrouter.ai/api/v1/chat/completions", {
-        method: "POST",
-        headers: {
-          "Authorization": "Bearer " + apiKey,
-          "HTTP-Referer": "<YOUR_SITE_URL>", // Optional. Site URL for rankings on openrouter.ai.
-          "X-Title": "<YOUR_SITE_NAME>", // Optional. Site title for rankings on openrouter.ai.
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify({
-          "model": "deepseek/deepseek-r1:free",
-          "messages": [
-            {
-              "role": "device",
-              "content": prompt
-            }
-          ]
-        })
+      const response =  await openai.chat.completions.create({
+        model: "deepseek/deepseek-r1:free",
+        messages: [
+          {
+            "role": "user",
+            "content": prompt
+          }
+        ],
+        
       });
       // const result = response.choices[0]?.message?.content ?? "Error generating message";
       // const [emailText, linkedInText] = result.split("\n\n");
-      const data =  await response.json()
-      console.log("data "  + data);
-      const markdownText = data.choices?.[0]?.message?.content || 'No response received.';
-      console.log(markdownText)
+      
+       
+      // console.log(response.choices[0].message.content);
+      const content = response.choices[0].message.content ; 
+      const messageStart = content.indexOf("**LinkedIn Message:**");
+      if ( messageStart === -1) {
+        return { email: null, linkedinMessage: null };
+    }
+      const linkedinMessage = content.substring(messageStart + "**LinkedIn Message:**".length).trim(); 
+      console.log(linkedinMessage) ; 
       return { emailText : "x", linkedInText : "y" };
       
       
