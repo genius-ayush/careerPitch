@@ -36,14 +36,15 @@ export const OpenAIService = {
       // const [emailText, linkedInText] = result.split("\n\n");
       
        
-      // console.log(response.choices[0].message.content);
       const content = response.choices[0].message.content ; 
-      const messageStart = content.indexOf("**LinkedIn Message:**");
-      if ( messageStart === -1) {
-        return { email: null, linkedinMessage: null };
-    }
-      const linkedinMessage = content.substring(messageStart + "**LinkedIn Message:**".length).trim(); 
-      console.log(linkedinMessage) ; 
+      console.log(response.choices[0].message.content);  
+
+      // const messageStart = content.indexOf("**LinkedIn Message:**");
+    //   if ( messageStart === -1) {
+    //     return { email: null, linkedinMessage: null };
+    // }
+      // const linkedinMessage = content.substring(messageStart + "**LinkedIn Message:**".length).trim(); 
+      // console.log(linkedinMessage) ; 
       return { emailText : "x", linkedInText : "y" };
       
       
