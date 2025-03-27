@@ -32,24 +32,19 @@ export const OpenAIService = {
         ],
         
       });
-      // const result = response.choices[0]?.message?.content ?? "Error generating message";
-      // const [emailText, linkedInText] = result.split("\n\n");
+      
       
        
-      const content = response.choices[0].message.content ; 
-      console.log(response.choices[0].message.content);  
+      const resp_message = response.choices[0].message
+        
+      console.log(resp_message);  
 
-      // const messageStart = content.indexOf("**LinkedIn Message:**");
-    //   if ( messageStart === -1) {
-    //     return { email: null, linkedinMessage: null };
-    // }
-      // const linkedinMessage = content.substring(messageStart + "**LinkedIn Message:**".length).trim(); 
-      // console.log(linkedinMessage) ; 
+      
       return { emailText : "x", linkedInText : "y" };
       
       
     } catch (error) {
-      console.error("OpenAI API error:", error);
+      console.error("OpenAI API error:", error);         
       throw new Error("Failed to generate message");
     }
   },
