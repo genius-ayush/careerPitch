@@ -33,7 +33,7 @@ export async function POST(req: NextRequest){
 
     console.log(emailText)
     console.log(linkedInText)
-    return NextResponse.json({message : emailText + " " + linkedInText});
+    return NextResponse.json({ emailText , linkedInText});
 
     // const message = await prismaClient.message.create({
     //   data : {userId : session.userId , ...validation , emailText , linkedInText} 
