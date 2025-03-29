@@ -13,6 +13,8 @@ import { Textarea } from "@/components/ui/textarea"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { MessagePreview } from "./message-preview"
+import axios from "axios";
+
 
 const formSchema = z.object({
   role: z.string().min(2, {
@@ -38,6 +40,8 @@ export function MessageGenerator() {
     emailText: string
     linkedInText: string
   }>(null)
+  
+  const [err , setErr] = useState("") ; 
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -45,7 +49,7 @@ export function MessageGenerator() {
       role: "",
       skills: "",
       company: "",
-      tone: "formal",
+      tone: "",
       additionalInfo: "",
     },
   })
@@ -53,16 +57,29 @@ export function MessageGenerator() {
   async function onSubmit(values: z.infer<typeof formSchema>) {
     setIsGenerating(true)
 
-    // Simulate API call to generate message
-    setTimeout(() => {
+
+    try{
+      const response = await axios.post("http://localhost:3000/api/messages" , {
+        role : values.role , 
+        skills: values.skills ,
+        company : values.company,
+        tone : values.tone , 
+        others : values.additionalInfo
+      })
+      
+      const data = response.data ; 
       const messageId = `msg-${Date.now()}`
       setGeneratedMessage({
         id: messageId,
-        emailText: `Dear [Name],\n\nI hope this email finds you well. I noticed you work at ${values.company} as a [Position]. I'm a ${values.role} with experience in ${values.skills}, and I'm interested in opportunities at ${values.company}.\n\nWould you be open to a brief conversation about your experience at ${values.company} and potentially referring me for a role that matches my skills?\n\nThank you for your time and consideration.\n\nBest regards,\n[Your Name]`,
-        linkedInText: `Hello [Name],\n\nI noticed you work at ${values.company} as a [Position]. I'm a ${values.role} with experience in ${values.skills}, and I'm interested in opportunities at ${values.company}.\n\nWould you be open to a brief conversation about your experience at ${values.company} and potentially referring me for a role that matches my skills?\n\nThank you for your time and consideration.\n\nBest regards,\n[Your Name]`,
+        emailText: data.emailText,
+        linkedInText: data.linkedInText,
       })
+      console.log("generated message" + generatedMessage)
       setIsGenerating(false)
-    }, 1500)
+    }catch(error){
+      setErr("Request failed");
+    }
+
   }
 
   function handleEdit() {

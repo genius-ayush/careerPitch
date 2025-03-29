@@ -10,7 +10,7 @@ const messageSchema = z.object({
     role: z.string().min(2, "Role is required"),
     skills: z.string().min(2, "Skills are required"),
     company: z.string().min(2, "Company name is required"),
-    tone: z.enum(["FORMAL", "CASUAL", "ENTHUSIASTIC"]),
+    tone: z.string(),
     others: z.string().optional()
   });
 
@@ -31,8 +31,7 @@ export async function POST(req: NextRequest){
       role , skills , company , tone , others || ""
     )
 
-    console.log(emailText)
-    console.log(linkedInText)
+    
     return NextResponse.json({ emailText , linkedInText});
 
     // const message = await prismaClient.message.create({
