@@ -27,16 +27,16 @@ model User {
 
 model Message {
   id            Int         @id @default(autoincrement())
-  userId        Int         
+  email        String         
   role          String   
   skills        String   
   company       String   
-  tone          Tone   
+  tone          String   
   emailText     String   
   linkedInText  String  
   createdAt     DateTime    @default(now())
 
-  user          User        @relation(fields: [userId], references: [id] , onDelete: Cascade )
+  user          User        @relation(fields: [email], references: [email] , onDelete: Cascade )
 }
 
 enum Tone {

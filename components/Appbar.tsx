@@ -9,7 +9,7 @@ function Appbar() {
 
     const session = useSession() ;
     console.log(session)
-    console.log(session.data) ; 
+    // console.log(session.data) ;
   return (
     // <div className="flex justify-between p-10 bg-amber-100">
     //     <div>CareerPitch</div>

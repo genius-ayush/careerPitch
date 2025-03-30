@@ -1,10 +1,12 @@
 import { prismaClient } from "@/lib/db";
 import { OpenAIService } from "@/lib/openAi";
 import { NextApiRequest, NextApiResponse } from "next";
-import { getSession } from "next-auth/react";
+import { getServerSession } from "next-auth";
+
+import { useSession } from "next-auth/react";
 import { NextRequest, NextResponse } from "next/server";
 // import OpenAI from "openai";
-import {z} from "zod"
+import { z} from "zod"
 
 const messageSchema = z.object({
     role: z.string().min(2, "Role is required"),
@@ -16,7 +18,7 @@ const messageSchema = z.object({
 
 
 export async function POST(req: NextRequest){
-
+  const session =  getServerSession();
   try{
     const body = await req.json() ;
     const validation = messageSchema.safeParse(body) ; 
@@ -30,14 +32,19 @@ export async function POST(req: NextRequest){
     const {emailText , linkedInText} = await OpenAIService.generateMessage(
       role , skills , company , tone , others || ""
     )
-
     
-    return NextResponse.json({ emailText , linkedInText});
+    
+    if(session.data?.user?.email != null){
+      
+      const message = await prismaClient.message.create({
+        
+          data : {email : session.data?.user?.email , emailText , linkedInText , role , skills , company  , tone } 
+        })
+    }
 
-    // const message = await prismaClient.message.create({
-    //   data : {userId : session.userId , ...validation , emailText , linkedInText} 
-    // })
-
+      
+      return NextResponse.json({ emailText , linkedInText});
+      
   }catch(error){
     console.error("Error generating messages" , error) ;
     return NextResponse.json({error : "failed to generate message"} , {status: 500}) ; 
