@@ -59,13 +59,13 @@ export function MessageGenerator() {
 
 
     try{
-      const response = await axios.post("http://localhost:3000/api/messages" , {
+      const response = await axios.post("api/messages" , {
         role : values.role , 
         skills: values.skills ,
         company : values.company,
         tone : values.tone , 
         others : values.additionalInfo
-      })
+      } , {withCredentials: true})
       
       const data = response.data ; 
       const messageId = `msg-${Date.now()}`

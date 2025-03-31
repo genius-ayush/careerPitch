@@ -1,67 +1,74 @@
-import { prismaClient } from "@/lib/db";
-import NextAuth from "next-auth"
-import GoogleProvider from "next-auth/providers/google";
-import type { NextAuthOptions } from "next-auth"
-
-console.log(process.env.NEXTAUTH_SECRET) ;
-export const authOptions: NextAuthOptions=({
-  
-  providers: [
-    GoogleProvider({
-      clientId: process.env.GOOGLE_CLIENT_ID ?? "",
-      clientSecret: process.env.GOOGLE_CLIENT_SECRET ?? ""
-    })
-  ],
-  secret : process.env.NEXTAUTH_SECRET ,   
-  callbacks: {
-    async signIn(params) {
-      if (!params.user.email) {
-        return false;
-      }
-      try {
-
-        const existingUser = await prismaClient.user.findUnique({
-          where: { email: params.user.email }
-        })
-
-        if (!existingUser) {
-          await prismaClient.user.create({
-            data: {
-              email: params.user?.email,
-              name: params.user?.name,
-              image: params.user?.image,
-            }
-          })
-
-        } else {
-
-          prismaClient.user.update({
-            where: { email: params.user.email },
-            data: {
-              name: params.user?.name,
-              image: params.user?.image,
-            }
-          })
+// import { prismaClient } from "@/lib/db";
+// import NextAuth from "next-auth"
+// import GoogleProvider from "next-auth/providers/google";
+// import type { NextAuthOptions } from "next-auth"
 
 
-        }
+// const handler = NextAuth({
 
-      } catch (error) {
-        console.error("login error", error);
-        throw new Error("Failed to Login");
-      }
+//   providers: [
+//     GoogleProvider({
+//       clientId: process.env.GOOGLE_CLIENT_ID ?? "",
+//       clientSecret: process.env.GOOGLE_CLIENT_SECRET ?? ""
+//     })
+//   ],
 
-      return true;
-    }, async redirect({ url, baseUrl }) {
-      return `${baseUrl}/dashboard`; // Redirects user to /dashboard after login
-    },
+//   callbacks: {
+//     async signIn(params) {
+//       if (!params.user.email) {
+//         return false;
+//       }
+//       try {
+
+//         const existingUser = await prismaClient.user.findUnique({
+//           where: { email: params.user.email }
+//         })
+
+//         if (!existingUser) {
+//           await prismaClient.user.create({
+//             data: {
+//               email: params.user?.email,
+//               name: params.user?.name,
+//               image: params.user?.image,
+//             }
+//           })
+
+//         } else {
+
+//           prismaClient.user.update({
+//             where: { email: params.user.email },
+//             data: {
+//               name: params.user?.name,
+//               image: params.user?.image,
+//             }
+//           })
 
 
-  }
+//         }
+
+//       } catch (error) {
+//         console.error("login error", error);
+//         throw new Error("Failed to Login");
+//       }
+
+//       return true;
+//     }, 
+//     async redirect({ url, baseUrl }) {
+//       return `${baseUrl}/dashboard`; // Redirects user to /dashboard after login
+//     },
 
 
-})
+//   }
 
-const handler = NextAuth(authOptions)
 
-export { handler as GET, handler as POST }
+// })
+
+// export { handler as GET, handler as POST }
+
+import NextAuth from "next-auth";
+
+import { authOptions } from "@/lib/auth-options";
+
+const handler = NextAuth(authOptions);
+
+export { handler as GET, handler as POST };
