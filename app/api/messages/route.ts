@@ -1,11 +1,10 @@
 import { prismaClient } from "@/lib/db";
 import { OpenAIService } from "@/lib/openAi";
-import { NextApiRequest, NextApiResponse } from "next";
-import { getServerSession } from "next-auth";
-
+import { getServerSession } from "next-auth/next"
 import { useSession } from "next-auth/react";
 import { NextRequest, NextResponse } from "next/server";
-// import OpenAI from "openai";
+import { authOptions} from "@/app/api/auth/[...nextauth]/route"
+
 import { z} from "zod"
 
 const messageSchema = z.object({
@@ -18,7 +17,8 @@ const messageSchema = z.object({
 
 
 export async function POST(req: NextRequest){
-  const session =  getServerSession();
+  const session = await getServerSession(authOptions)
+  console.log("session : " + session) ; 
   try{
     const body = await req.json() ;
     const validation = messageSchema.safeParse(body) ; 
@@ -29,21 +29,24 @@ export async function POST(req: NextRequest){
 
     const {role , skills , company ,tone , others} = validation.data ; 
 
-    const {emailText , linkedInText} = await OpenAIService.generateMessage(
-      role , skills , company , tone , others || ""
-    )
     
     
+    //@ts-ignore
     if(session.data?.user?.email != null){
-      
+
+      const {emailText , linkedInText} = await OpenAIService.generateMessage(
+        role , skills , company , tone , others || ""
+      )
       const message = await prismaClient.message.create({
-        
+        //@ts-ignore
           data : {email : session.data?.user?.email , emailText , linkedInText , role , skills , company  , tone } 
         })
+        return NextResponse.json({ emailText , linkedInText});
+    }else{
+      return NextResponse.json({error : "unauthorized user"} , {status: 401})
     }
 
       
-      return NextResponse.json({ emailText , linkedInText});
       
   }catch(error){
     console.error("Error generating messages" , error) ;
