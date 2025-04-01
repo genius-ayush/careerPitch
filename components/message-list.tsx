@@ -15,6 +15,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 import { Skeleton } from "@/components/ui/skeleton"
+import axios from "axios"
 
 // Mock data for demonstration
 const mockMessages = [
@@ -57,11 +58,18 @@ export function MessageList() {
   const [sortDirection, setSortDirection] = useState<"asc" | "desc">("desc")
 
   useEffect(() => {
-    // Simulate API call to fetch messages
-    setTimeout(() => {
-      setMessages(mockMessages)
-      setLoading(false)
-    }, 800)
+    const fetchData = async()=>{
+      try{
+        const response = await axios.get("/api/messages",{withCredentials:true})
+        setMessages(response.data) ;
+        setLoading(false) ; 
+      }catch(error){
+        console.error("Error fetching data" , error) ; 
+      }
+    }
+
+    fetchData() ;
+    
   }, [])
 
   const handleSort = (field: string) => {

@@ -60,12 +60,12 @@ export async function GET(req :NextRequest){
 
     if(session?.user?.email){
 
-      const messages = await prismaClient.message.findUnique({
+      const messages = await prismaClient.message.findMany({
         where:{
           email: session.user.email,
         },  
       }) ; 
-      return NextResponse.json(messages) ;
+      return NextResponse.json(messages , {status:200}) ;
     }else{
       return NextResponse.json({error:"unauthorized user"} , {status:401})
     }
