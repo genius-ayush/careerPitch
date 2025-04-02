@@ -55,11 +55,10 @@ export async function POST(req: NextRequest ){
 export async function GET(req :NextRequest){
   
   const session = await getServerSession(authOptions) ; 
-
+  
   try{
 
     if(session?.user?.email){
-
       const messages = await prismaClient.message.findMany({
         where:{
           email: session.user.email,

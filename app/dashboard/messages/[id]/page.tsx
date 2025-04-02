@@ -6,48 +6,46 @@ import { MessageEditor } from "@/components/message-editor"
 import { Button } from "@/components/ui/button"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Skeleton } from "@/components/ui/skeleton"
+import axios from "axios"
 
 // Mock data for demonstration
-const mockMessages = [
-  {
-    id: "msg-1",
-    userId: "user-123",
-    role: "Frontend Developer",
-    skills: "React, JavaScript, TypeScript",
-    company: "Google",
-    tone: "Formal",
-    emailText:
-      "Dear [Name],\n\nI hope this email finds you well. I noticed you work at Google as a [Position]. I'm a Frontend Developer with experience in React, JavaScript, and TypeScript, and I'm interested in opportunities at Google.\n\nWould you be open to a brief conversation about your experience at Google and potentially referring me for a role that matches my skills?\n\nThank you for your time and consideration.\n\nBest regards,\n[Your Name]",
-    linkedInText:
-      "Hello [Name],\n\nI noticed you work at Google as a [Position]. I'm a Frontend Developer with experience in React, JavaScript, and TypeScript, and I'm interested in opportunities at Google.\n\nWould you be open to a brief conversation about your experience at Google and potentially referring me for a role that matches my skills?\n\nThank you for your time and consideration.\n\nBest regards,\n[Your Name]",
-  },
-  {
-    id: "msg-2",
-    userId: "user-123",
-    role: "UX Designer",
-    skills: "Figma, User Research, Prototyping",
-    company: "Microsoft",
-    tone: "Casual",
-    emailText:
-      "Hi [Name],\n\nI came across your profile and saw that you work at Microsoft. I'm a UX Designer with skills in Figma, User Research, and Prototyping, and I'm exploring opportunities at Microsoft.\n\nWould you be up for a quick chat about your experience there and possibly pointing me in the right direction for applying?\n\nThanks!\n[Your Name]",
-    linkedInText:
-      "Hi [Name],\n\nI came across your profile and saw that you work at Microsoft. I'm a UX Designer with skills in Figma, User Research, and Prototyping, and I'm exploring opportunities at Microsoft.\n\nWould you be up for a quick chat about your experience there and possibly pointing me in the right direction for applying?\n\nThanks!\n[Your Name]",
-  },
-]
+
 
 export default function MessageDetailPage() {
   const params = useParams()
   const [message, setMessage] = useState<any>(null)
   const [loading, setLoading] = useState(true)
-
+  
   useEffect(() => {
-    // Simulate API call to fetch message
-    setTimeout(() => {
-      const foundMessage = mockMessages.find((m) => m.id === params.id)
-      setMessage(foundMessage || null)
+  
+    
+
+    const fetchMessage = async()=>{
+      try{
+
+        const response = await axios.get(`/api/messages/${params.id}`, {withCredentials:true})
+        console.log(response.data) ; 
+        setMessage(response.data) ; 
+      }catch(error){
+        console.error('Error fetching messge:' , error)
+      }
+
       setLoading(false)
-    }, 500)
+    }
+
+    fetchMessage(); 
   }, [params.id])
+
+  // const updateMessage = async( emailText: string , linkedInText: string)=>{
+  //   try{
+  //     // console.log("params" , params.id) ; 
+  //     const response = await axios.patch(`api/message/${params.id}` , {emailText , linkedInText } , {withCredentials: true}) ;
+  //     console.log(`api/message/${params.id}`)
+  //     return response.data ; 
+  //   }catch(error){
+  //     console.error("Error updating message:" , error) ; 
+  //   }
+  // }
 
   if (loading) {
     return (

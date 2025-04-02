@@ -17,39 +17,7 @@ import {
 import { Skeleton } from "@/components/ui/skeleton"
 import axios from "axios"
 
-// Mock data for demonstration
-const mockMessages = [
-  {
-    id: "msg-1",
-    role: "Frontend Developer",
-    company: "Google",
-    createdAt: "2023-05-15T10:30:00Z",
-  },
-  {
-    id: "msg-2",
-    role: "UX Designer",
-    company: "Microsoft",
-    createdAt: "2023-05-14T14:45:00Z",
-  },
-  {
-    id: "msg-3",
-    role: "Product Manager",
-    company: "Amazon",
-    createdAt: "2023-05-13T09:15:00Z",
-  },
-  {
-    id: "msg-4",
-    role: "Data Scientist",
-    company: "Netflix",
-    createdAt: "2023-05-12T16:20:00Z",
-  },
-  {
-    id: "msg-5",
-    role: "Software Engineer",
-    company: "Apple",
-    createdAt: "2023-05-11T11:10:00Z",
-  },
-]
+
 
 export function MessageList() {
   const [messages, setMessages] = useState<any[]>([])
@@ -96,6 +64,21 @@ export function MessageList() {
       month: "short",
       day: "numeric",
     }).format(date)
+  }
+
+  const handleDelete = async(id:number)=>{
+    try{
+      const response = await axios.delete(`/api/messages/${id}`, {
+        withCredentials: true,
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }); 
+      
+      console.log("message deleted") ; 
+    }catch(error){
+      console.log("error deleting message" , error) ; 
+    }
   }
 
   if (loading) {
@@ -215,7 +198,7 @@ export function MessageList() {
                         <DropdownMenuSeparator />
                         <DropdownMenuItem className="text-destructive">
                           <Trash2 className="mr-2 h-4 w-4" />
-                          <span>Delete</span>
+                          <span onClick={()=>{handleDelete(message.id)}}>Delete</span>
                         </DropdownMenuItem>
                       </DropdownMenuContent>
                     </DropdownMenu>

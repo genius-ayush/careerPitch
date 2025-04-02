@@ -32,16 +32,33 @@ import {
 import { ScrollArea } from "./ui/scroll-area"
 import { Separator } from "./ui/separator"
 import { signOut, useSession } from "next-auth/react"
+import { useEffect, useState } from "react"
+import axios from "axios"
 
 export default function DashboardSidebar() {
     const pathname = usePathname()
     const router = useRouter()
     const session = useSession() ; 
-    console.log(session.data?.user?.image); 
+    const [messages, setMessages] = useState<any[]>([])
+
+    useEffect(() => {
+        const fetchData = async()=>{
+          try{
+            const response = await axios.get("/api/messages",{withCredentials:true})
+            console.log(response.data) ; 
+            setMessages(response.data) ;
+            console.log(messages) ; 
+          }catch(error){
+            console.error("Error fetching data" , error) ; 
+          }
+        }
+    
+        fetchData() ;
+        
+      }, [])
+
+
     const handleLogout = () => {
-        // Clear authentication state
-        // localStorage.removeItem("isAuthenticated")g
-        // Redirect to landing pageLogout
         signOut() ;
         router.push("/")
     }
@@ -56,7 +73,6 @@ export default function DashboardSidebar() {
 
             </SidebarHeader>
 
-            {/* <SidebarContent className="py-5"> */}
 
             <SidebarGroup className="border-b-1 pt-10 pb-10">
                 <SidebarGroupContent>
@@ -97,54 +113,13 @@ export default function DashboardSidebar() {
             <ScrollArea className="h-96  rounded-md border-b-1 pb-5 ">
                 <div className="p-4">
                     
-
-
-                    <div className="text-sm"><Link href="/dashboard/messages/msg-1">
-                        Frontend Developer at Google
+                    {messages.map((message)=>(
+                        <div className="text-sm"><Link href={`/dashboard/messages/${message.id}`}>
+                        {`${message.role} at ${message.company}`}
                     </Link>
-                    </div>
                     <Separator className="my-2" />
-
-                    <div className="text-sm">
-                        Frontend Developer at Google
-                    </div>
-                    <Separator className="my-2" />
-
-                    <div className="text-sm">
-                        Frontend Developer at Google
-                    </div>
-                    <Separator className="my-2" />
-
-                    <div className="text-sm">
-                        Frontend Developer at Google
-                    </div>
-                    <Separator className="my-2" />
-
-                    <div className="text-sm">
-                        Frontend Developer at Google
-                    </div>
-                    <Separator className="my-2" />
-
-                    <div className="text-sm">
-                        Frontend Developer at Google
-                    </div>
-                    <Separator className="my-2" />
-
-                    <div className="text-sm">
-                        Frontend Developer at Google
-                    </div>
-                    <Separator className="my-2" />
-
-                    <div className="text-sm">
-                        Frontend Developer at Google
-                    </div>
-                    <Separator className="my-2" />
-
-                    <div className="text-sm">
-                        Frontend Developer at Google
-                    </div>
-                    <Separator className="my-2" />
-
+                    </div>    
+                    ))}
 
                 </div>
             </ScrollArea>
