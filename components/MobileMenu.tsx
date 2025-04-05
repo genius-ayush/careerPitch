@@ -4,8 +4,11 @@ import { Sheet, SheetClose, SheetContent, SheetHeader, SheetTitle, SheetTrigger 
 import { Menu, X } from 'lucide-react'
 import { Button } from './ui/button'
 import CompanyLogo from './CompanyLogo'
+import { signIn, useSession } from 'next-auth/react'
+import Link from 'next/link'
 
 function MobileMenu() {
+    const session = useSession() ; 
   return (
     <Sheet>
         <SheetTrigger className="border p-2.5 rounded-lg text-foreground/60  hover:bg-gray-100">
@@ -28,7 +31,9 @@ function MobileMenu() {
                             <SheetClose className='flex flex-col-reverse gap-3'>
 
                                 <div>
-                                    <Button>Signin</Button>
+                                    {session.data?.user && <Link href={"/dashboard"}><Button>Go to app</Button></Link>}
+                                    
+                                    {!session.data?.user && <Button onClick={()=>signIn()}>Signin</Button>}
                                 </div>
                                 
                                 
