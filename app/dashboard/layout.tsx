@@ -7,6 +7,8 @@ import { useRouter } from "next/navigation"
 import DashboardSidebar from "@/components/dashboard-sidebar"
 import { SidebarProvider } from "@/components/ui/sidebar"
 import { useSession } from "next-auth/react"
+import { MobileHeader } from "@/components/mobile-header"
+import { MobileBottomNav } from "@/components/mobile-bottom-nav"
 
 export default function DashboardLayout({
   children,
@@ -19,12 +21,24 @@ export default function DashboardLayout({
 
   if(session.data){
     return (
-      <div className="flex min-h-screen">
+      
         <SidebarProvider>
-        <DashboardSidebar/>
-        <main className="flex-1">{children}</main>
+          <div className="flex min-h-screen">
+            <div className="hidden md:block">
+              <DashboardSidebar/>
+            </div>
+
+            <div className="md:hidden">
+              <MobileHeader/>
+            </div>
+
+            
+              <main className="flex-1 pt-16 pb-16 md:pt-0 md:pb-0 md:ml-80  ">{children}</main>
+              <MobileBottomNav/>
+          </div>
+
         </SidebarProvider>
-      </div>
+    
   )
   }else{
     return <p>Access Denied</p>

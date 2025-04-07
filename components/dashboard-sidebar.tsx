@@ -2,7 +2,7 @@
 
 import Link from "next/link"
 import { useRouter, usePathname } from "next/navigation"
-import { LayoutDashboard, MessageSquare, Settings, Users, PlusCircle, Sparkles, LogOut } from "lucide-react"
+import { LayoutDashboard, MessageSquare, Settings, Users, PlusCircle, Sparkles, LogOut, Clock } from "lucide-react"
 
 import {
     Sidebar,
@@ -38,28 +38,28 @@ import axios from "axios"
 export default function DashboardSidebar() {
     const pathname = usePathname()
     const router = useRouter()
-    const session = useSession() ; 
+    const session = useSession();
     const [messages, setMessages] = useState<any[]>([])
 
     useEffect(() => {
-        const fetchData = async()=>{
-          try{
-            const response = await axios.get("/api/messages",{withCredentials:true})
-            console.log(response.data) ; 
-            setMessages(response.data) ;
-            console.log(messages) ; 
-          }catch(error){
-            console.error("Error fetching data" , error) ; 
-          }
+        const fetchData = async () => {
+            try {
+                const response = await axios.get("/api/messages", { withCredentials: true })
+                console.log(response.data);
+                setMessages(response.data);
+                console.log(messages);
+            } catch (error) {
+                console.error("Error fetching data", error);
+            }
         }
-    
-        fetchData() ;
-        
-      }, [])
+
+        fetchData();
+
+    }, [])
 
 
     const handleLogout = () => {
-        signOut() ;
+        signOut();
         router.push("/")
     }
 
@@ -98,27 +98,47 @@ export default function DashboardSidebar() {
                         </SidebarMenuItem>
                         <SidebarMenuItem>
                             <SidebarMenuButton asChild>
-                                <Link href="/dashboard/settings" className="flex items-center w-full">
-                                    <Settings className="mr-2 h-4 w-4" />
-                                    <span>Settings</span>
-                                </Link>
+                                <DropdownMenu>
+                                    <DropdownMenuTrigger asChild>
+
+                                        <div className="flex items-center w-full ml-2">
+                                            <Settings className="mr-2 h-4 w-4" />
+                                            <span>Settings</span>
+                                        </div>
+                                    </DropdownMenuTrigger>
+                                    <DropdownMenuContent className="w-56">
+                                        <DropdownMenuLabel>Settings</DropdownMenuLabel>
+                                        <DropdownMenuSeparator />
+                                        <DropdownMenuGroup>
+                                            
+                                            <DropdownMenuItem>
+                                                <p>Theme</p> <ModeToggle />
+                                            </DropdownMenuItem>
+                                            
+                                        </DropdownMenuGroup>
+                                        <DropdownMenuSeparator />
+                                        
+                                        
+                                    </DropdownMenuContent>
+                                </DropdownMenu>
                             </SidebarMenuButton>
                         </SidebarMenuItem>
                     </SidebarMenu>
                 </SidebarGroupContent>
             </SidebarGroup>
 
-
-            <h4 className="mb-4  text-sm leading-none px-4 pt-5">Recent Messages</h4>
+            <div className="flex items-center w-full ml-4">
+                <Clock className="h-4 w-4 " />
+                <h4 className="mb-4  text-sm leading-none px-4 pt-5">Recent Messages</h4></div>
             <ScrollArea className="h-96  rounded-md border-b-1 pb-5 ">
                 <div className="p-4">
-                    
-                    {messages.map((message)=>(
+
+                    {messages.map((message) => (
                         <div className="text-sm"><Link href={`/dashboard/messages/${message.id}`}>
-                        {`${message.role} at ${message.company}`}
-                    </Link>
-                    <Separator className="my-2" />
-                    </div>    
+                            {`${message.role} at ${message.company}`}
+                        </Link>
+                            <Separator className="my-2" />
+                        </div>
                     ))}
 
                 </div>
@@ -152,9 +172,7 @@ export default function DashboardSidebar() {
                                     <DropdownMenuItem>
                                         <span>Settings</span>
                                     </DropdownMenuItem>
-                                    <DropdownMenuItem>
-                                        <span className="flex items-center"><p>Theme</p> <ModeToggle /></span>
-                                    </DropdownMenuItem>
+                                    
                                 </DropdownMenuGroup>
                                 <DropdownMenuSeparator />
                                 <DropdownMenuItem onClick={handleLogout}>

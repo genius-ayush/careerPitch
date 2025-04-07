@@ -49,7 +49,7 @@ export default function MessageDetailPage() {
 
   if (loading) {
     return (
-      <div className="flex flex-col h-full ml-80">
+      <div className="flex flex-col h-full">
         <div className="flex-1 p-6">
           <div className="flex items-center justify-between mb-6">
             <Skeleton className="h-8 w-64" />
@@ -64,7 +64,7 @@ export default function MessageDetailPage() {
 
   if (!message) {
     return (
-      <div className="flex flex-col h-full ml-80">
+      <div className="flex flex-col h-full">
         <div className="flex-1 p-6">
           <div className="flex flex-col items-center justify-center h-full">
             <h2 className="text-2xl font-bold mb-2">Message not found</h2>
@@ -81,7 +81,7 @@ export default function MessageDetailPage() {
   }
 
   return (
-    <div className="flex flex-col h-full ml-80">
+    <div className="flex flex-col h-full ">
       <div className="flex-1 p-6">
         <div className="flex items-center justify-between mb-6">
           <h1 className="text-2xl font-bold">

@@ -7,11 +7,13 @@ import { useTheme } from "next-themes";
 import { useEffect, useState } from "react";
 import { Button } from "./ui/button";
 import Desktop from "./ui/desktop";
+import { signIn, useSession } from "next-auth/react";
+import Link from "next/link";
 
 function Hero() {
   const { resolvedTheme } = useTheme();
   const [color, setColor] = useState("#ffffff");
-
+  const session =  useSession() ; 
   useEffect(() => {
     setColor(resolvedTheme === "dark" ? "#ffffff" : "#000000");
   }, [resolvedTheme]);
@@ -48,7 +50,9 @@ function Hero() {
 
       {/* Call to Action */}
       <div className="flex justify-center mt-6 mb-16 sm:mb-24">
-        <Button>Get started for free</Button>
+        {session && <Link href={"/dashboard"}><Button>Go to app</Button></Link>}
+        {!session && <Button onClick={()=> signIn()}>Get started for free</Button>}
+        
       </div>
 
       {/* Desktop UI Preview */}
