@@ -13,11 +13,7 @@ export default function LoginPage() {
 
   const handleGoogleLogin = async () => {
     setIsLoading(true)
-    // Simulate Google login process
-    await new Promise((resolve) => setTimeout(resolve, 1500))
-    // Set authentication state (in a real app, you'd store a token)
-    localStorage.setItem("isAuthenticated", "true")
-    // Redirect to dashboard after successful login
+    signIn("google")
     router.push("/dashboard")
   }
 
@@ -32,7 +28,7 @@ export default function LoginPage() {
           <CardDescription>Sign in to your account</CardDescription>
         </CardHeader>
         <CardContent>
-          <Button className="w-full" onClick={()=>signIn("google")} disabled={isLoading}>
+          <Button className="w-full" onClick={()=> handleGoogleLogin()} disabled={isLoading}>
             {isLoading ? "Signing in..." : "Sign in with Google"}
           </Button>
         </CardContent>
