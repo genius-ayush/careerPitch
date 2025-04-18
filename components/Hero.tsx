@@ -51,7 +51,7 @@ function Hero() {
       {/* Call to Action */}
       <div className="flex justify-center mt-6 mb-16 sm:mb-24">
         {session.data?.user && <Link href={"/dashboard"}><Button>Go to app</Button></Link>}
-        {!session.data?.user && <Button onClick={()=> signIn()}>Get started for free</Button>}
+        {!session.data?.user && <Link href={"/login"}><Button >Get started for free</Button> </Link>}
         
       </div>
 
