@@ -9,15 +9,19 @@ type Params = {
   };
 };
 
-export async function GET(req: NextRequest, { params }: { params: { id: string } }) {
-  const session = await getServerSession(authOptions);
-  if (!session || !session.user?.email) {
-    return NextResponse.json({ error: "unauthorized user" }, { status: 401 });
-  }
+export async function GET(
+  req: NextRequest,
+  { params }: { params: Promise<{ id: string }> } 
+) {
+  const session = await getServerSession(authOptions)
 
-  const messageId = parseInt(params.id);
+  if (!session || !session.user?.email) {
+    return NextResponse.json({ error: 'unauthorized user' }, { status: 401 })
+  }
+  const id = (await params).id; 
+  const messageId = parseInt(id)
   if (isNaN(messageId)) {
-    return NextResponse.json({ error: "Invalid message ID" }, { status: 400 });
+    return NextResponse.json({ error: 'Invalid message ID' }, { status: 400 })
   }
 
   try {
@@ -26,26 +30,29 @@ export async function GET(req: NextRequest, { params }: { params: { id: string }
         id: messageId,
         email: session.user.email,
       },
-    });
+    })
 
     if (!message) {
-      return NextResponse.json({ error: "message not found" }, { status: 404 });
+      return NextResponse.json({ error: 'message not found' }, { status: 404 })
     }
 
-    return NextResponse.json(message, { status: 200 });
+    return NextResponse.json(message, { status: 200 })
   } catch (error) {
-    console.error("Error fetching message", error);
-    return NextResponse.json({ error: "failed to fetch message" }, { status: 400 });
+    console.error('Error fetching message', error)
+    return NextResponse.json(
+      { error: 'failed to fetch message' },
+      { status: 400 }
+    )
   }
 }
 
-export async function PATCH(req: NextRequest, { params }: Params) {
+export async function PATCH(req: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   const session = await getServerSession(authOptions);
   if (!session || !session.user?.email) {
     return NextResponse.json({ error: "Unauthorized user" }, { status: 401 });
   }
-
-  const messageId = parseInt(params.id);
+  const id = (await params).id;
+  const messageId = parseInt(id);
   if (isNaN(messageId)) {
     return NextResponse.json({ error: "Invalid message ID" }, { status: 400 });
   }
@@ -72,13 +79,13 @@ export async function PATCH(req: NextRequest, { params }: Params) {
   }
 }
 
-export async function DELETE(req: NextRequest, { params }: Params) {
+export async function DELETE(req: NextRequest, { params }: { params: Promise<{ id: string }>}) {
   const session = await getServerSession(authOptions);
   if (!session || !session.user?.email) {
     return NextResponse.json({ error: "Unauthorized user" }, { status: 401 });
   }
-
-  const messageId = parseInt(params.id);
+  const id = (await params).id; 
+  const messageId = parseInt(id);
   if (isNaN(messageId)) {
     return NextResponse.json({ error: "Invalid message ID" }, { status: 400 });
   }

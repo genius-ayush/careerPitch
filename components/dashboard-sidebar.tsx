@@ -102,7 +102,7 @@ export default function DashboardSidebar() {
                                     <DropdownMenuTrigger asChild>
 
                                         <div className="flex items-center w-full ml-2">
-                                            <Settings className="mr-2 h-4 w-4" />
+                                            <Settings className="mr-4 h-4 w-4" />
                                             <span>Settings</span>
                                         </div>
                                     </DropdownMenuTrigger>

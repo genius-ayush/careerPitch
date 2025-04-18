@@ -22,9 +22,9 @@ export default function MessageDetailPage() {
 
     const fetchMessage = async()=>{
       try{
-
-        const response = await axios.get(`/api/messages/${params.id}`, {withCredentials:true})
-        console.log(response.data) ; 
+        const id = params.id ; 
+        const response = await axios.get(`/api/messages/${id}`, {withCredentials:true})
+        // console.log(response.data) ; 
         setMessage(response.data) ; 
       }catch(error){
         console.error('Error fetching messge:' , error)
