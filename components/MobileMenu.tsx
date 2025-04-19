@@ -33,7 +33,7 @@ function MobileMenu() {
                                 <div>
                                     {session.data?.user && <Link href={"/dashboard"}><Button>Go to app</Button></Link>}
                                     
-                                    {!session.data?.user && <Button onClick={()=>signIn()}>Signin</Button>}
+                                    {!session.data?.user && <Link href={"/login"}><Button >Signin</Button> </Link>}
                                 </div>
                                 
                                 
